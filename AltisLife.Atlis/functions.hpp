@@ -311,8 +311,7 @@ class Life_Client_Core {
         class startRoentgen {};
     };
     class Network {
-        file = "core\functions
-        etwork ";
+        file = "core\functions\network";
         class broadcast {};
         class corpse {};
         class jumpFnc {};

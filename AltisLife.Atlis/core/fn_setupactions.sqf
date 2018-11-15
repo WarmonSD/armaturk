@@ -1,0 +1,33 @@
+life_actions = [];
+switch (playerSide) do {
+    case civilian:{
+            life_actions pushBack(player addAction[localize "STR_pAct_DropFishingNet", life_fnc_dropFishingNet, "", 0, false, false, "", '(surfaceisWater(getPos vehicle player))&&(vehicle player isKindOf "Ship")&& life_carryWeight<life_maxWeight && speed(vehicle player)<2 && speed(vehicle player)>-1 && !life_net_dropped ']);
+            life_actions pushBack(player addAction[localize "STR_pAct_soyMani", life_fnc_soyManAksiyon, "", 0, false, false, "", '!isNull cursorObject && player distance cursorObject<4 && isPlayer cursorObject && animationState cursorObject=="Incapacitated" && !(cursorObject getVariable["robbed",false])']);
+            life_actions = life_actions + [player addAction["Kisiyi Kelepcele", life_fnc_civrestrainAction, "", 0, false, false, "", '!isNull cursorObject && player distance cursorObject<3.5 && isPlayer cursorObject && animationState cursorObject=="Incapacitated" && !(cursorObject getVariable["robbed",false])']];
+            life_actions = life_actions + [player addAction["Surucu Ismini Goster", life_fnc_sf7surucu, "", 1, false, true, "", ' playerSide isEqualTo civilian && !isNull cursorTarget &&((cursorTarget isKindOf "Car")||(cursorTarget isKindOf "Air")||(cursorTarget isKindOf "Ship"))&& player distance cursorTarget<500 && alive cursorTarget ']];
+            life_actions = life_actions + [player addAction["Kisinin Ismini Goster", life_fnc_sf7sivilli, "", 1, false, true, "", ' playerSide isEqualTo civilian && !isNull cursorTarget && cursorTarget isKindOf "Man" && player distance cursorTarget<500 && alive cursorTarget ']];
+            life_actions pushBack(player addAction["<t color='#D660D6'>Emniyet Kemerini Tak</t>", life_fnc_seatbelt, "", 7, false, false, "", ' !life_seatbelt && vehicle player !=player ']);
+            life_actions pushBack(player addAction["<t color='#D660D6'>Emniyet Kemerini Cikart</t>", life_fnc_seatbelt, "", 7, false, false, "", ' life_seatbelt && vehicle player !=player ']);
+        };
+    case west:{
+            life_actions = life_actions + [player addAction["Surucu Ismini Goster", life_fnc_sf7surucu, "", 1, false, true, "", ' playerSide isEqualTo west && !isNull cursorTarget &&((cursorTarget isKindOf "Car")||(cursorTarget isKindOf "Air")||(cursorTarget isKindOf "Ship"))&& player distance cursorTarget<500 && alive cursorTarget ']];
+            life_actions = life_actions + [player addAction["Kisinin Ismini Goster", life_fnc_sf7sivilli, "", 1, false, true, "", ' playerSide isEqualTo west && !isNull cursorTarget && cursorTarget isKindOf "Man" && player distance cursorTarget<500 && alive cursorTarget ']];
+            life_actions = life_actions + [player addAction["Surucu Bin", life_fnc_copEnter, "driver", 200, false, false, "", '!isNull cursorTarget &&((cursorTarget isKindOf "Car")||(cursorTarget isKindOf "Air")||(cursorTarget isKindOf "Ship"))&&(locked cursorTarget)!=0 && cursorTarget distance player<3.5']];
+            life_actions = life_actions + [player addAction["Yolcu bin", life_fnc_copEnter, "passenger", 100, false, false, "", '!isNull cursorTarget &&((cursorTarget isKindOf "Car")||(cursorTarget isKindOf "Air")||(cursorTarget isKindOf "Ship"))&&(locked cursorTarget)!=0 && cursorTarget distance player<3.5']];
+            life_actions = life_actions + [player addAction["Gunner Bin", life_fnc_copEnter, "gunner", 100, false, false, "", '!isNull cursorTarget &&((cursorTarget isKindOf "Car")||(cursorTarget isKindOf "Air")||(cursorTarget isKindOf "Ship"))&&(locked cursorTarget)!=0 && cursorTarget distance player<3.5']];
+            life_actions = life_actions + [player addAction["Aractan Atla", life_fnc_copEnter, "exit", 100, false, false, "", '(vehicle player !=player)&&(locked(vehicle player)isEqualTo 2)&&(speed(vehicle player)<2)&&(driver vehicle player !=player)||((vehicle player)isKindOf "LandVehicle")']];
+            life_actions = life_actions + [player addAction["Yerleri supur", life_fnc_seizeObjects, cursorTarget, 0, false, false, "", 'count(nearestObjects[player,["weaponholder"],3])>0']];
+            life_actions pushBack(player addAction["<t color='#D660D6'>Emniyet Kemerini Tak</t>", life_fnc_seatbelt, "", 7, false, false, "", ' !life_seatbelt && vehicle player !=player ']);
+            life_actions pushBack(player addAction["<t color='#D660D6'>Emniyet Kemerini Cikart</t>", life_fnc_seatbelt, "", 7, false, false, "", ' life_seatbelt && vehicle player !=player ']);
+        };
+    case independent:{
+            life_actions = life_actions + [player addAction["Surucu Ismini Goster", life_fnc_sf7surucu, "", 1, false, true, "", ' playerSide isEqualTo independent && !isNull cursorTarget &&((cursorTarget isKindOf "Car")||(cursorTarget isKindOf "Air")||(cursorTarget isKindOf "Ship"))&& player distance cursorTarget<500 && alive cursorTarget ']];
+            life_actions = life_actions + [player addAction["Kisinin Ismini Goster", life_fnc_sf7sivilli, "", 1, false, true, "", ' playerSide isEqualTo independent && !isNull cursorTarget && cursorTarget isKindOf "Man" && player distance cursorTarget<500 && alive cursorTarget ']];
+            life_actions = life_actions + [player addAction["Surucu Bin", life_fnc_medEnter, "driver", 200, false, false, "", '!isNull cursorTarget &&((cursorTarget isKindOf "Car")||(cursorTarget isKindOf "Air")||(cursorTarget isKindOf "Ship"))&&(locked cursorTarget)!=0 && cursorTarget distance player<3.5']];
+            life_actions = life_actions + [player addAction["Yolcu bin", life_fnc_medEnter, "passenger", 100, false, false, "", '!isNull cursorTarget &&((cursorTarget isKindOf "Car")||(cursorTarget isKindOf "Air")||(cursorTarget isKindOf "Ship"))&&(locked cursorTarget)!=0 && cursorTarget distance player<3.5']];
+            life_actions = life_actions + [player addAction["Gunner Bin", life_fnc_medEnter, "gunner", 100, false, false, "", '!isNull cursorTarget &&((cursorTarget isKindOf "Car")||(cursorTarget isKindOf "Air")||(cursorTarget isKindOf "Ship"))&&(locked cursorTarget)!=0 && cursorTarget distance player<3.5']];
+            life_actions = life_actions + [player addAction["Aractan Atla", life_fnc_medEnter, "exit", 100, false, false, "", '(vehicle player !=player)&&(locked(vehicle player)isEqualTo 2)&&(speed(vehicle player)<2)']];
+            life_actions pushBack(player addAction["<t color='#D660D6'>Emniyet Kemerini Tak</t>", life_fnc_seatbelt, "", 7, false, false, "", ' !life_seatbelt && vehicle player !=player ']);
+            life_actions pushBack(player addAction["<t color='#D660D6'>Emniyet Kemerini Cikart</t>", life_fnc_seatbelt, "", 7, false, false, "", ' life_seatbelt && vehicle player !=player ']);
+        };
+};
